@@ -20,22 +20,42 @@ def index():
     conn = create_connection(database)
 
     if request.method == 'POST':
-        name = request.form["name"];shop_name = request.form["shop_name"];status = request.form["status"]
-        cur1 = conn.cursor()
-        strTime =datetime.now().strftime("%m/%d/%Y %H:%M:%S")     
-        cur1.execute("INSERT INTO SHOP_DETAILS(NAME,SHOP_NAME,STATUS,DATE) VALUES (?,?,?,?)",(name,shop_name,status,strTime) )
-        conn.commit()
-
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM SHOP_DETAILS")
-        items = cur.fetchall()
-        conn.close()
-        return render_template('index.html', items=items)
+        try:
+            id = request.form["PrimaryId"]
+            cur = conn.cursor()
+            cur.execute("UPDATE SHOP_DETAILS SET NAME = ? ,SHOP_NAME = ? ,STATUS = ?,DATE = ? WHERE id = ?",(request.form["name"], request.form["shop_name"],request.form["status"], datetime.now().strftime("%m/%d/%Y %H:%M:%S"), id))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('index'))
+        except:
+            cur = conn.cursor()    
+            cur.execute("INSERT INTO SHOP_DETAILS(NAME,SHOP_NAME,STATUS,DATE) VALUES (?,?,?,?)",(request.form["name"],request.form["shop_name"],request.form["status"],datetime.now().strftime("%m/%d/%Y %H:%M:%S")) )
+            conn.commit()
+            conn.close()
+            return redirect(url_for('index'))
+    elif request.method == 'PUT':
+        database = r"storage\SqliteDB\ShopDetails.db"
+        conn = create_connection(database)
+        
+        
     cur = conn.cursor()
     cur.execute("SELECT * FROM SHOP_DETAILS")
     items = cur.fetchall()
     conn.close()
     return render_template('index.html', items=items)
+
+
+@app.route('/button_press/<primary_key>/<action>')
+def button_press(primary_key,action): 
+    if action == "delete":
+        database = r"storage\SqliteDB\ShopDetails.db"
+        conn = create_connection(database)
+        cur = conn.cursor()
+        cur.execute("DELETE FROM SHOP_DETAILS WHERE ID='"+ primary_key + "';")
+        conn.commit()
+        conn.close()
+        return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.run()

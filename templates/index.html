@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
 	<link href="static/css/dataTables.bootstrap4.min.css" rel="stylesheet" media="screen">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script type="text/javascript" src="static/js/index.js"></script>
     <script type="text/javascript" src="static/js/jquery.min.js"></script>
     <script type="text/javascript" src="static/js/bootstrap.js"></script>
@@ -13,64 +14,119 @@
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
   </head>
  	<body>
-  	<div class="container">
+	<br>
+	<br>
+  	<div class="container card">
 	  <br>
-	  <br>
-	  <h1 class="display-4">Test!</h1>
-	  		<hr class="my-4">
-			<div>
+	  <div>
+	  <h1 class="display-6 font-weight-bold mb-0" style="color:blue">Intellectyx Test</h1>
+	  </div>
+			<div class="card-body">
 			<div class="row">
 				<br>
-				<div class="col">
-					<table class="table table-bordered table-striped" id="myTable">
-					<div>
-					<thead>
-						<tr>
-						<th scope="col">NAME</th>
-						<th scope="col">STATUS</th>
-						<th scope="col">Date</th>
-						</tr>
-					</thead>
-					<tbody id="shop_details">
-						{% for item in items %}
-						<tr>
-							<td>{{ item[0] }}</td>
-							<td>{{ item[2] }}</td>
-							<td>{{ item[3] }}</td>
-						</tr>
-						{% endfor %}
-					</tbody>
+					<div class="col">
+						<table class="table table-bordered table-striped" id="myTable">
+							<div>
+							<thead>
+								<tr>
+								<th scope="col">NAME</th>
+								<th scope="col">STATUS</th>
+								<th scope="col">Date</th>
+								<th scope="LinkCol">ACTION</th>
+								</tr>
+							</thead>
+							<tbody id="shop_details">
+								{% for item in items %}
+								<tr>
+									<td>{{ item[1] }}</td>
+									<td>{{ item[3] }}</td>
+									<td>{{ item[4] }}</td>
+									<td style="text-align:center">
+									<a href="" class="open-EditDialog" data-id="{{item[0]}}" data-nme="{{item[1]}}" data-shpnme="{{item[2]}}" data-stus="{{item[3]}}" title="Edit" data-toggle="modal" data-target="#modalLoginForm"><i class="material-icons">&#xE254;</i></a>
+                            		<a href="{{ url_for('button_press', primary_key=item[0],action="delete") }}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+									</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+							</div>
+						</table>
 					</div>
-					</table>
-				<hr class="my-4">
-				</div>
-				<div class="col col-lg-4">
-				<form action="" method="post">
-					<div class="form-row">
-					<label><b>NAME</b></label>
-					<input class="form-control" id="name" name="name"  type="text" required/>
+					<div class="col col-lg-4">
+					<form action="" method="post">
+						<div class="form-row">
+						<label><b>NAME</b></label>
+						<input class="form-control" id="name" name="name"  type="text" required/>
+						</div>
+						<br>
+						<div class="form-row"> 
+						<label><b>SHOP NAME</b></label>
+						<input type="text" class="form-control" name="shop_name" required>
+						</div>
+						<br>
+						<div class="form-row">
+						<label><b>STATUS</b></label>
+						<textarea class="form-control" id="exampleFormControlTextarea1" name="status" rows="8"></textarea>
+						</div>
+						<br>
+						<button class="btn btn-primary" type="submit">SUBMIT</button>
+					</form>
 					</div>
-					<br>
-					<div class="form-row"> 
-					<label><b>SHOP NAME</b></label>
-					<input type="text" class="form-control" name="shop_name" required>
-					</div>
-					<br>
-					<div class="form-row">
-					<label><b>STATUS</b></label>
-					<textarea class="form-control" id="exampleFormControlTextarea1" name="status" rows="8"></textarea>
-					</div>
-					<br>
-					<button class="btn btn-primary" type="submit">SUBMIT</button>
-				</form>
-				</div>
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			<div class="modal-header text-center">
+				<h4 class="modal-title w-100 font-weight-bold">Edit Record</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body mx-3">
+				<form action="" method="post">
+						<div class="form-row">
+						<label><b>ID</b></label>
+						<input class="form-control" id="PrimaryId" name="PrimaryId"  type="text" readonly/>
+						</div>
+						<br>
+						<div class="form-row">
+						<label><b>NAME</b></label>
+						<input class="form-control" id="name_up" name="name"  type="text" required/>
+						</div>
+						<br>
+						<div class="form-row"> 
+						<label><b>SHOP NAME</b></label>
+						<input type="text" id="shop_name_up" class="form-control" name="shop_name" required>
+						</div>
+						<br>
+						<div class="form-row">
+						<label><b>STATUS</b></label>
+						<textarea class="form-control" id="status_up" name="status" rows="8"></textarea>
+						</div>
+						<br>
+						<button class="btn btn-primary" type="submit">UPDATE</button>
+					</form>
+			</div>
+		</div>
+	</div>
+
  	</body>
 	 <script>
 	 	$(document).ready( function () {
 		$('#myTable').DataTable();
 		} );
+
+		$(document).on("click", ".open-EditDialog", function () {
+		var myPrimaryId = $(this).data('id');
+		var name_up = $(this).data('nme');
+		var shop_name_up = $(this).data('shpnme');
+		var status_up = $(this).data('stus');
+		$(".modal-body #PrimaryId").val(myPrimaryId);
+		$(".modal-body #name_up").val(name_up);
+		$(".modal-body #shop_name_up").val(shop_name_up);
+		$(".modal-body #status_up").val( status_up );
+		});
  	</script>
 </html>
