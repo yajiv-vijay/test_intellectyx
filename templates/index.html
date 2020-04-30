@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="static/css/dataTables.bootstrap4.min.css" rel="stylesheet" media="screen">
+    <script type="text/javascript" src="static/js/index.js"></script>
+    <script type="text/javascript" src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+  </head>
+ 	<body>
+  	<div class="container">
+	  <br>
+	  <br>
+	  <h1 class="display-4">Test!</h1>
+	  		<hr class="my-4">
+			<div>
+			<div class="row">
+				<br>
+				<div class="col">
+					<table class="table table-bordered table-striped" id="myTable">
+					<div>
+					<thead>
+						<tr>
+						<th scope="col">NAME</th>
+						<th scope="col">STATUS</th>
+						<th scope="col">Date</th>
+						</tr>
+					</thead>
+					<tbody id="shop_details">
+						{% for item in items %}
+						<tr>
+							<td>{{ item[0] }}</td>
+							<td>{{ item[2] }}</td>
+							<td>{{ item[3] }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+					</div>
+					</table>
+				<hr class="my-4">
+				</div>
+				<div class="col col-lg-4">
+				<form action="" method="post">
+					<div class="form-row">
+					<label><b>NAME</b></label>
+					<input class="form-control" id="name" name="name"  type="text" required/>
+					</div>
+					<br>
+					<div class="form-row"> 
+					<label><b>SHOP NAME</b></label>
+					<input type="text" class="form-control" name="shop_name" required>
+					</div>
+					<br>
+					<div class="form-row">
+					<label><b>STATUS</b></label>
+					<textarea class="form-control" id="exampleFormControlTextarea1" name="status" rows="8"></textarea>
+					</div>
+					<br>
+					<button class="btn btn-primary" type="submit">SUBMIT</button>
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+ 	</body>
+	 <script>
+	 	$(document).ready( function () {
+		$('#myTable').DataTable();
+		} );
+ 	</script>
+</html>
